@@ -7,255 +7,225 @@
 <title>ქართული</title>
 <style>
 :root{
-  --bg:#f4ece0;--bg2:#ece0cf;--ink:#2a221b;--ink-soft:#6b5d4d;
-  --wine:#7a1f2b;--wine-soft:#a8455188;--gold:#b8893b;--green:#4a6b3f;
-  --card:#fbf6ee;--line:#d8c9b3;--shadow:rgba(60,40,20,.16);--radius:18px;
+  --paper:#faf8f4;--surface:#ffffff;--ink:#33302b;--ink-2:#6a655d;--ink-3:#a9a298;
+  --line:#ece7df;--line-2:#e0dacf;--word:#2b2824;--accent:#b06a4f;--accent-soft:#b06a4f1a;--radius:16px;
+}
+@media (prefers-color-scheme:dark){
+:root{--paper:#17150f;--surface:#201d17;--ink:#ece6da;--ink-2:#a59e90;--ink-3:#6f685b;
+  --line:#2a261f;--line-2:#332e26;--word:#f1ebe0;--accent:#cf8568;--accent-soft:#cf856822;}
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html{-webkit-text-size-adjust:100%}
-body{font-family:'Georgia','Times New Roman',serif;color:var(--ink);min-height:100vh;line-height:1.5;
-  background:radial-gradient(1200px 600px at 80% -10%,#fff7ea 0%,transparent 60%),linear-gradient(160deg,var(--bg),var(--bg2));
-  background-attachment:fixed;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
-.geo{font-family:'Sylfaen','Noto Serif Georgian','BPG Glaho',serif}
-.wrap{max-width:560px;margin:0 auto;padding:18px 16px 90px}
-header{text-align:center;padding:12px 0 4px}
-.bigletter{font-size:60px;line-height:1;color:var(--wine);font-family:'Sylfaen',serif;text-shadow:1px 2px 0 var(--gold);animation:drop .8s cubic-bezier(.2,.8,.2,1) both}
-@keyframes drop{from{opacity:0;transform:translateY(-12px) rotate(-4deg)}to{opacity:1;transform:none}}
-h1{font-size:14px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);font-weight:normal;margin-top:4px}
-.stats{display:flex;gap:10px;margin:16px 0 14px}
-.stat{flex:1;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:11px 6px;text-align:center;box-shadow:0 2px 0 var(--shadow)}
-.stat b{display:block;font-size:24px;color:var(--wine);font-family:'Sylfaen',serif}
-.stat span{font-size:10.5px;color:var(--ink-soft);letter-spacing:.03em}
-.windows{display:flex;justify-content:center;gap:8px;margin:0 0 18px}
-.win{width:40px;height:40px;border-radius:50%;border:2px dashed var(--line);display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--ink-soft);background:var(--card);transition:.25s}
-.win.done{background:var(--green);color:#fff;border-style:solid;border-color:var(--green);transform:scale(1.05)}
-.win.now{border-color:var(--wine);border-style:solid;animation:pulse 1.6s infinite}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 0 var(--wine-soft)}50%{box-shadow:0 0 0 7px transparent}}
-.tabs{display:flex;gap:6px;margin-bottom:6px;background:var(--bg2);padding:5px;border-radius:14px}
-.tab{flex:1;text-align:center;padding:10px 4px;border-radius:10px;font-size:12.5px;letter-spacing:.03em;cursor:pointer;color:var(--ink-soft);transition:.2s;font-weight:bold}
-.tab.active{background:var(--wine);color:#fff;box-shadow:0 2px 6px var(--wine-soft)}
-.daybar{display:flex;gap:6px;overflow-x:auto;padding:12px 2px 6px;-webkit-overflow-scrolling:touch}
-.daychip{flex:0 0 auto;min-width:40px;height:40px;border-radius:11px;border:1px solid var(--line);background:var(--card);display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;color:var(--ink-soft);position:relative}
-.daychip.active{background:var(--gold);color:#fff;border-color:var(--gold)}
-.daychip.complete::after{content:"✓";position:absolute;top:-5px;right:-4px;background:var(--green);color:#fff;width:16px;height:16px;border-radius:50%;font-size:10px;display:flex;align-items:center;justify-content:center}
-.section-label{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin:18px 4px 10px;font-weight:bold}
-.lesson{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);margin-bottom:12px;overflow:hidden;box-shadow:0 3px 0 var(--shadow);transition:.2s}
-.lesson.grammar{border-color:var(--wine-soft);background:linear-gradient(180deg,#fff8ee,#fbf3e6)}
-.lhead{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer}
-.lnum{min-width:38px;height:38px;border-radius:11px;background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:17px;color:var(--wine);font-family:'Sylfaen',serif;border:1px solid var(--line)}
-.lesson.grammar .lnum{background:#f0dcc0}
-.lesson.done .lnum{background:var(--green);color:#fff;border-color:var(--green)}
-.ltitle{flex:1}.ltitle b{font-size:15px;display:block}.ltitle small{color:var(--ink-soft);font-size:12px}
-.tag{font-size:9px;letter-spacing:.1em;background:var(--wine);color:#fff;padding:2px 6px;border-radius:6px;vertical-align:middle;margin-left:4px}
-.chev{color:var(--ink-soft);font-size:13px;transition:.2s}.lesson.open .chev{transform:rotate(90deg)}
-.lbody{max-height:0;overflow:hidden;transition:max-height .4s ease}.lesson.open .lbody{max-height:3000px}
-.lbody-inner{padding:2px 16px 16px}
-.confuse{display:flex;gap:10px;justify-content:center;margin:8px 0 10px}
-.glyph{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:8px 16px;text-align:center;min-width:64px}
-.glyph .g{font-family:'Sylfaen',serif;font-size:38px;color:var(--wine);line-height:1}.glyph .n{font-size:11px;color:var(--ink-soft);margin-top:2px}
-.pair{display:flex;align-items:baseline;gap:10px;padding:10px 0;border-bottom:1px dashed var(--line)}.pair:last-child{border:none}
-.pair .ka{font-family:'Sylfaen','Noto Serif Georgian',serif;font-size:21px;color:var(--wine);min-width:38%}
-.pair .tr{font-size:12.5px;color:var(--gold);font-style:italic;min-width:26%;cursor:pointer;user-select:none}
-.pair .tr.hidden-tr{color:var(--line)}
-.pair .tr.hidden-tr::before{content:"··· тап";font-style:normal;font-size:11px}
-.pair .ru{font-size:14px;flex:1}
-.philo{font-size:14px;line-height:1.7;color:var(--ink);background:#fffdf8;border:1px solid var(--line);border-radius:12px;padding:14px;margin:6px 0 12px}
-.svgbox{background:#fffdf8;border:1px solid var(--line);border-radius:12px;padding:8px;margin-bottom:12px}
+body{font-family:'Inter','Helvetica Neue',Arial,sans-serif;background:var(--paper);color:var(--ink);
+  min-height:100vh;line-height:1.5;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom);-webkit-font-smoothing:antialiased}
+.geo{font-family:'Sylfaen','Noto Serif Georgian','BPG Glaho',Georgia,serif}
+.wrap{max-width:520px;margin:0 auto;padding:20px 18px 80px}
+header{margin-bottom:22px}
+.eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+.title-row{display:flex;align-items:baseline;justify-content:space-between;margin-top:6px}
+.title-row h1{font-family:'Sylfaen',serif;font-size:32px;font-weight:600;color:var(--word);letter-spacing:.01em}
+.title-row .day{font-size:13px;color:var(--ink-2);font-weight:500}
+.stats{display:flex;margin:20px 0 4px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.stat{flex:1;text-align:center;padding:14px 4px;position:relative}
+.stat+.stat::before{content:"";position:absolute;left:0;top:22%;height:56%;width:1px;background:var(--line)}
+.stat b{display:block;font-size:23px;font-weight:700;color:var(--ink);line-height:1;letter-spacing:-.01em}
+.stat.accent b{color:var(--accent)}
+.stat span{font-size:10px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.07em;font-weight:600;margin-top:6px;display:block}
+.windows{display:flex;gap:7px;margin:20px 0}
+.win{flex:1;height:6px;border-radius:3px;background:var(--line-2);transition:.3s}
+.win.done{background:var(--accent)}
+.win.now{background:var(--accent);opacity:.45}
+.tabs{display:flex;gap:18px;margin:18px 2px 4px;border-bottom:1px solid var(--line)}
+.tab{padding:8px 0;font-size:13px;font-weight:600;color:var(--ink-3);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;letter-spacing:.02em}
+.tab.active{color:var(--ink);border-bottom-color:var(--accent)}
+.daybar{display:flex;gap:4px;overflow-x:auto;margin:14px 0 4px;-webkit-overflow-scrolling:touch}
+.daychip{flex:0 0 auto;min-width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:var(--ink-3);background:transparent;cursor:pointer}
+.daychip.done{color:var(--ink-2)}
+.daychip.active{color:#fff;background:var(--accent)}
+.daychip.locked{opacity:.4}
+.section-label{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);font-weight:700;margin:22px 2px 12px}
+.lesson{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);margin-bottom:12px;overflow:hidden}
+.lhead{display:flex;align-items:center;gap:14px;padding:16px;cursor:pointer}
+.lnum{font-size:13px;font-weight:700;color:var(--ink-3);min-width:22px;text-align:center}
+.ltitle{flex:1}
+.ltitle b{font-size:15.5px;font-weight:700;display:block;line-height:1.2;color:var(--ink)}
+.ltitle small{font-size:12.5px;color:var(--ink-3);font-weight:500}
+.chev{font-size:13px;color:var(--ink-3);transition:.2s}
+.lesson.open .chev{transform:rotate(180deg)}
+.lbody{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.lesson.open .lbody{max-height:4000px}
+.lbody-inner{padding:0 16px 16px}
+.confuse{display:flex;gap:10px;margin:2px 0 16px}
+.glyph{flex:1;text-align:center;border-radius:12px;padding:12px 4px;background:var(--paper)}
+.glyph .g{font-family:'Sylfaen',serif;font-size:40px;color:var(--word);line-height:1}
+.glyph .n{font-size:11px;color:var(--ink-3);margin-top:6px;font-weight:600}
+.pair{display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid var(--line)}
+.pair:last-of-type{border-bottom:none}
+.pair .ka{font-family:'Sylfaen',serif;font-size:25px;color:var(--word);min-width:40%;line-height:1.15;font-weight:600}
+.pair .tr{min-width:24%;cursor:pointer;user-select:none}
+.pair .tr .peek{display:inline-block;font-size:10px;font-weight:600;letter-spacing:.05em;color:var(--ink-3);text-transform:uppercase;border-bottom:1px dashed var(--ink-3);padding-bottom:1px}
+.pair .tr.shown .peek{display:none}
+.pair .tr .real{display:none;font-size:13px;color:var(--ink-2);font-style:italic}
+.pair .tr.shown .real{display:inline}
+.pair .ru{flex:1;font-size:14.5px;color:var(--ink);font-weight:500}
+.fact{margin-top:16px;padding-top:14px;border-top:1px solid var(--line);font-size:13px;line-height:1.6;color:var(--ink-2)}
+.fact .tag{font-size:10px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;display:block;margin-bottom:6px}
+.fact b{color:var(--ink);font-weight:700}
+.done-btn{width:100%;margin-top:18px;padding:14px;border:none;border-radius:12px;background:var(--ink);color:var(--paper);font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;transition:.15s;letter-spacing:.01em}
+.done-btn:active{opacity:.85;transform:scale(.99)}
+.lesson.done .done-btn{background:transparent;color:var(--accent);border:1px solid var(--line-2)}
+.lesson.grammar .lhead{border-left:3px solid var(--accent)}
+.philo{font-size:13.5px;line-height:1.7;color:var(--ink-2);margin:2px 0 14px}
+.philo b{color:var(--ink);font-weight:700}
+.svgbox{border:1px solid var(--line);border-radius:12px;padding:14px;background:var(--paper);margin-bottom:8px}
 .svgbox svg{width:100%;height:auto;display:block}
-.fact{background:linear-gradient(135deg,#fff7e8,#f6ead2);border-left:4px solid var(--gold);border-radius:10px;padding:12px 14px;margin-top:12px;font-size:13.5px;line-height:1.6}
-.fact b{color:var(--wine)}
-.done-btn{width:100%;margin-top:16px;padding:13px;border:none;border-radius:12px;background:var(--wine);color:#fff;font-size:14px;letter-spacing:.04em;font-family:inherit;cursor:pointer;font-weight:bold;box-shadow:0 3px 0 #5a1620;transition:.1s}
-.done-btn:active{transform:translateY(2px);box-shadow:0 1px 0 #5a1620}
-.lesson.done .done-btn{background:var(--green);box-shadow:0 3px 0 #34502c}
-.review-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;text-align:center;box-shadow:0 3px 0 var(--shadow)}
-.review-card .q{font-family:'Sylfaen',serif;font-size:38px;color:var(--wine);margin:8px 0}
-.review-card .a{font-size:18px;min-height:24px;margin:8px 0;opacity:0;transition:.3s}.review-card .a.show{opacity:1}
-.rbtns{display:flex;gap:8px;margin-top:16px}
-.rbtns button{flex:1;padding:12px;border:none;border-radius:10px;font-family:inherit;font-size:13px;cursor:pointer;font-weight:bold;color:#fff}
-.b-reveal{background:var(--gold);width:100%}.b-hard{background:var(--wine)}.b-ok{background:var(--green)}
-#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(80px);background:var(--ink);color:var(--bg);padding:12px 20px;border-radius:30px;font-size:14px;box-shadow:0 6px 24px rgba(0,0,0,.3);transition:.35s cubic-bezier(.2,.9,.2,1);z-index:50;opacity:0;max-width:88%;text-align:center}
+.review-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:24px 20px;text-align:center}
+.review-card .meta{font-size:10px;letter-spacing:.14em;color:var(--ink-3);text-transform:uppercase;font-weight:700}
+.review-card .q{font-family:'Sylfaen',serif;font-size:38px;color:var(--word);margin:14px 0;font-weight:600}
+.review-card .a{font-size:18px;min-height:24px;margin:8px 0;opacity:0;transition:.3s;color:var(--ink)}
+.review-card .a.show{opacity:1}
+.rbtns{display:flex;gap:10px;margin-top:18px}
+.rbtns button{flex:1;padding:13px;border:none;border-radius:11px;font-family:inherit;font-size:13px;cursor:pointer;font-weight:600}
+.b-reveal{width:100%;background:var(--ink);color:var(--paper)}
+.b-hard{background:transparent;color:var(--accent);border:1px solid var(--line-2)!important}
+.b-ok{background:var(--accent);color:#fff}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(80px);background:var(--ink);color:var(--paper);padding:13px 22px;border-radius:30px;font-size:14px;font-weight:500;box-shadow:0 8px 30px rgba(0,0,0,.18);transition:.35s cubic-bezier(.2,.9,.2,1);z-index:50;opacity:0;max-width:88%;text-align:center}
 #toast.show{transform:translateX(-50%) translateY(0);opacity:1}
-.tools{display:flex;gap:8px;justify-content:center;margin-top:22px}
-.tools button{background:none;border:1px solid var(--line);color:var(--ink-soft);font-family:inherit;font-size:11px;padding:7px 12px;border-radius:9px;cursor:pointer}
-.note{font-size:11px;color:var(--ink-soft);text-align:center;margin-top:14px;line-height:1.6;padding:0 10px}
+.tools{display:flex;gap:10px;justify-content:center;margin-top:24px}
+.tools button{background:none;border:1px solid var(--line-2);color:var(--ink-3);font-family:inherit;font-size:11px;padding:8px 14px;border-radius:9px;cursor:pointer;font-weight:600}
+.note{font-size:11px;color:var(--ink-3);text-align:center;margin-top:16px;line-height:1.6;padding:0 8px}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <header><div class="bigletter geo" id="dailyLetter">ა</div><h1>ქართული · твой грузинский</h1></header>
+  <header>
+    <div class="eyebrow" id="eyebrow">день 1</div>
+    <div class="title-row">
+      <h1 class="geo">ქართული</h1>
+      <span class="day geo" id="dailyLetter">ა</span>
+    </div>
+  </header>
   <div class="stats">
-    <div class="stat"><b>🔥<span id="streak">0</span></b><span>дней подряд</span></div>
+    <div class="stat accent"><b id="streak">0</b><span>дней 🔥</span></div>
     <div class="stat"><b id="doneCount">0</b><span>уроков</span></div>
     <div class="stat"><b id="todaySessions">0/4</b><span>сегодня</span></div>
   </div>
   <div class="windows" id="windows"></div>
   <div class="tabs">
-    <div class="tab active" data-track="lang">ენა · уроки</div>
-    <div class="tab" data-track="review">გამეორება · повтор</div>
+    <div class="tab active" data-track="lang">уроки</div>
+    <div class="tab" data-track="review">повторение</div>
   </div>
   <div class="daybar" id="daybar"></div>
   <div id="content"></div>
   <div class="tools">
-    <button id="exportBtn">⬇ Экспорт прогресса</button>
-    <button id="importBtn">⬆ Импорт</button>
+    <button id="exportBtn">Экспорт прогресса</button>
+    <button id="importBtn">Импорт</button>
   </div>
   <p class="note" id="note"></p>
 </div>
 <div id="toast"></div>
 
-<script src="lessons.js"></script>
+<script src="lessons.js?v=2" onerror="window.__lessonsFailed=true"></script>
 <script>
 const KEY="kartuli_v2";
 const HEADER_LETTERS=["ა","ბ","გ","დ","ვ","კ","ლ","მ","ნ","ო","რ","ს","ტ","ფ","ქ","ღ","ყ"];
 const WINDOWS=["11:00","15:00","19:00","23:00"];
-const L = window.LESSONS || [];
-
+const L=window.LESSONS||[];
 let S=load();
 function load(){try{const r=localStorage.getItem(KEY);if(r)return JSON.parse(r);}catch(e){}
-  return {done:[],streak:0,lastDay:null,today:null,sessions:0,reviewDeck:[],revealTr:false};}
+  return {done:[],streak:0,lastDay:null,today:null,sessions:0,reviewDeck:[]};}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
 function todayStr(){return new Date().toISOString().slice(0,10);}
 function checkDay(){const t=todayStr();
-  if(S.today!==t){
-    if(S.lastDay){const diff=(new Date(t)-new Date(S.lastDay))/86400000;
-      if(diff>1) S.streak=0;}
+  if(S.today!==t){if(S.lastDay){const d=(new Date(t)-new Date(S.lastDay))/86400000;if(d>1)S.streak=0;}
     S.today=t;S.sessions=0;save();}}
-
-let currentTrack="lang";
-let activeDay=1;
-
-function maxUnlockedDay(){
-  // день N открыт, если хотя бы 1 урок дня N-1 пройден (мягкая прогрессия)
-  let d=1;
-  for(let day=1; day<10; day++){
-    const lessonsOfDay=L.filter(l=>l.day===day);
-    const anyDone=lessonsOfDay.some(l=>S.done.includes(l.id));
-    if(anyDone) d=day+1; else break;
-  }
-  return d;
-}
-
-function render(){
-  checkDay();
+let currentTrack="lang",activeDay=1;
+function maxUnlockedDay(){let d=1;for(let day=1;day<10;day++){
+  const ld=L.filter(l=>l.day===day);if(ld.some(l=>S.done.includes(l.id)))d=day+1;else break;}return d;}
+function render(){checkDay();
   document.getElementById('dailyLetter').textContent=HEADER_LETTERS[new Date().getDate()%HEADER_LETTERS.length];
   document.getElementById('streak').textContent=S.streak;
   document.getElementById('doneCount').textContent=S.done.length;
   document.getElementById('todaySessions').textContent=S.sessions+"/4";
   renderWindows();
-  if(currentTrack==="lang"){renderDaybar();renderDay();}
-  else renderReview();
-}
-function renderWindows(){
-  const now=new Date();const cur=now.getHours()*60+now.getMinutes();
-  const nextIdx=WINDOWS.findIndex(x=>{const[h,m]=x.split(':').map(Number);return h*60+m>=cur;});
+  if(currentTrack==="lang"){document.getElementById('daybar').style.display="";renderDaybar();renderDay();}
+  else{document.getElementById('daybar').style.display="none";renderReview();}}
+function renderWindows(){const now=new Date();const cur=now.getHours()*60+now.getMinutes();
+  const ni=WINDOWS.findIndex(x=>{const[h,m]=x.split(':').map(Number);return h*60+m>=cur;});
   document.getElementById('windows').innerHTML=WINDOWS.map((w,i)=>{
-    let cls="win";if(i<S.sessions)cls+=" done";
-    if(i===nextIdx&&i>=S.sessions)cls+=" now";
-    return `<div class="${cls}">${w.slice(0,2)}</div>`;}).join('');
-}
-function renderDaybar(){
-  const maxD=maxUnlockedDay();
-  if(activeDay>maxD)activeDay=maxD;
-  let html="";
-  for(let d=1;d<=10;d++){
-    const lessonsOfDay=L.filter(l=>l.day===d);
-    const complete=lessonsOfDay.length>0 && lessonsOfDay.every(l=>S.done.includes(l.id));
-    const locked=d>maxD;
-    html+=`<div class="daychip ${d===activeDay?'active':''} ${complete?'complete':''}" data-day="${d}" ${locked?'data-locked=1':''}>${locked?'🔒':d}</div>`;
-  }
-  const db=document.getElementById('daybar');db.innerHTML=html;
-  db.querySelectorAll('.daychip').forEach(c=>{
-    c.onclick=()=>{if(c.dataset.locked){toast("🔒 Сначала начни предыдущий день");return;}
-      activeDay=+c.dataset.day;render();};
-  });
-}
+    let c="win";if(i<S.sessions)c+=" done";if(i===ni&&i>=S.sessions)c+=" now";
+    return `<div class="${c}"></div>`;}).join('');}
+function renderDaybar(){const maxD=maxUnlockedDay();if(activeDay>maxD)activeDay=maxD;
+  document.getElementById('eyebrow').textContent="день "+activeDay;
+  let h="";for(let d=1;d<=10;d++){const ld=L.filter(l=>l.day===d);
+    const complete=ld.length&&ld.every(l=>S.done.includes(l.id));const locked=d>maxD;
+    h+=`<div class="daychip ${d===activeDay?'active':''} ${complete?'done':''} ${locked?'locked':''}" data-day="${d}" ${locked?'data-locked=1':''}>${d}</div>`;}
+  const db=document.getElementById('daybar');db.innerHTML=h;
+  db.querySelectorAll('.daychip').forEach(c=>c.onclick=()=>{
+    if(c.dataset.locked){toast("Сначала начни предыдущий день");return;}activeDay=+c.dataset.day;render();});}
 function renderDay(){
-  document.getElementById('note').innerHTML="Транслитерация спрятана — сначала прочти грузинскими буквами сама, потом тапни по жёлтому полю, чтобы проверить. Один урок за заход ≈ 5 минут.";
+  document.getElementById('note').innerHTML="Транскрипция скрыта — сначала прочти грузинскими буквами, потом тапни «показать» для проверки. Один урок за заход ≈ 5 минут.";
+  if(!L.length){
+    document.getElementById('content').innerHTML=`<div class="review-card"><p style="color:var(--ink-2);line-height:1.6">Уроки не загрузились. Обычно это кэш браузера.<br><br>Потяни страницу вниз, чтобы обновить. Если не помогло — закрой вкладку и открой заново с домашнего экрана.</p></div>`;
+    return;
+  }
   const lessons=L.filter(l=>l.day===activeDay);
-  const lang=lessons.filter(l=>l.track==="lang");
-  const gram=lessons.filter(l=>l.track==="grammar");
-  let html=`<div class="section-label">⌁ день ${activeDay} · слова и фразы</div>`;
-  lang.forEach(l=>html+=card(l));
-  if(gram.length){html+=`<div class="section-label">⌁ философия языка</div>`;gram.forEach(l=>html+=card(l));}
-  document.getElementById('content').innerHTML=html;
-  bind();
-}
-function card(l){
-  const done=S.done.includes(l.id);
-  let b="";
+  const lang=lessons.filter(l=>l.track==="lang"),gram=lessons.filter(l=>l.track==="grammar");
+  let h=`<div class="section-label">слова и фразы</div>`;
+  lang.forEach(l=>h+=card(l));
+  if(gram.length){h+=`<div class="section-label">философия языка</div>`;gram.forEach(l=>h+=card(l));}
+  document.getElementById('content').innerHTML=h;bind();}
+function card(l){const done=S.done.includes(l.id);let b="";
   if(l.confuse)b+=`<div class="confuse">${l.confuse.map(g=>`<div class="glyph"><div class="g geo">${g.g}</div><div class="n">${g.n}</div></div>`).join('')}</div>`;
   if(l.philo)b+=`<div class="philo">${l.philo}</div>`;
   if(l.svg)b+=`<div class="svgbox">${l.svg}</div>`;
-  b+=l.items.map(it=>`<div class="pair"><span class="ka geo">${it.ka}</span><span class="tr ${S.revealTr?'':'hidden-tr'}">${it.tr}</span><span class="ru">${it.ru}</span></div>`).join('');
-  if(l.fact)b+=`<div class="fact">🏛 ${l.fact}</div>`;
-  b+=`<button class="done-btn" data-done="${l.id}">${done?"✓ пройдено · открыть снова":"Прошёл — отметить"}</button>`;
+  b+=l.items.map(it=>`<div class="pair"><span class="ka geo">${it.ka}</span><span class="tr"><span class="peek">показать</span><span class="real">${it.tr}</span></span><span class="ru">${it.ru}</span></div>`).join('');
+  if(l.fact)b+=`<div class="fact"><span class="tag">культура</span>${l.fact}</div>`;
+  b+=`<button class="done-btn" data-done="${l.id}">${done?"Пройдено · открыть снова":"Отметить пройденным"}</button>`;
+  const num=l.confuse?"აბ":(l.id<10?"0"+l.id:l.id);
   return `<div class="lesson ${l.track==='grammar'?'grammar':''} ${done?'done':''}" data-lesson="${l.id}">
-    <div class="lhead"><div class="lnum geo">${done?'✓':(l.confuse?'აბ':l.id)}</div>
-      <div class="ltitle"><b>${l.title}${l.track==='grammar'?'<span class="tag">философия</span>':''}</b><small>${l.sub}</small></div>
-      <div class="chev">▶</div></div>
-    <div class="lbody"><div class="lbody-inner">${b}</div></div></div>`;
-}
+    <div class="lhead"><div class="lnum geo">${num}</div>
+      <div class="ltitle"><b>${l.title}</b><small>${l.sub}</small></div><div class="chev">▾</div></div>
+    <div class="lbody"><div class="lbody-inner">${b}</div></div></div>`;}
 function bind(){
   document.querySelectorAll('.lhead').forEach(h=>h.onclick=()=>h.closest('.lesson').classList.toggle('open'));
-  document.querySelectorAll('.pair .tr').forEach(t=>t.onclick=e=>{e.stopPropagation();t.classList.remove('hidden-tr');});
-  document.querySelectorAll('[data-done]').forEach(b=>b.onclick=e=>{e.stopPropagation();complete(+b.dataset.done);});
-}
-function complete(id){
-  const l=L.find(x=>x.id===id);
-  if(!S.done.includes(id)){
-    S.done.push(id);
-    l.items.forEach(it=>{if(!S.reviewDeck.find(r=>r.ka===it.ka))S.reviewDeck.push({ka:it.ka,ru:it.ru,box:1,due:Date.now()});});
-  }
-  S.lastDay=todayStr();
-  if(S.sessions<4)S.sessions++;
-  if(S.streak===0)S.streak=1;
-  // если это первый засчитанный урок «нового дня подряд» — нарастить стрик единожды
-  if(!S._streakedToday){S._streakedToday=todayStr();}
-  save();celebrate();render();
-}
-function celebrate(){
-  const m=["კარგია! 🍷 +1","ყოჩაღ! (молодец)","ფანტასტიკურია! 🔥","აპლодисменти 👏","მაგარია! идём дальше"];
+  document.querySelectorAll('.pair .tr').forEach(t=>t.onclick=e=>{e.stopPropagation();t.classList.toggle('shown');});
+  document.querySelectorAll('[data-done]').forEach(b=>b.onclick=e=>{e.stopPropagation();complete(+b.dataset.done);});}
+function complete(id){const l=L.find(x=>x.id===id);
+  if(!S.done.includes(id)){S.done.push(id);
+    l.items.forEach(it=>{if(!S.reviewDeck.find(r=>r.ka===it.ka))S.reviewDeck.push({ka:it.ka,ru:it.ru,box:1,due:Date.now()});});}
+  S.lastDay=todayStr();if(S.sessions<4)S.sessions++;if(S.streak===0)S.streak=1;
+  save();celebrate();render();}
+function celebrate(){const m=["კარგია 🍷 +1","ყოჩაღ! (молодец)","ფანტასტიკურია!","აპლодисменти 👏","მაგარია! дальше"];
   toast(m[Math.floor(Math.random()*m.length)]);
-  if(S.sessions>=4)setTimeout(()=>toast("🏆 Все 4 окна сегодня закрыты!"),1400);
-}
-/* повтор (Лейтнер) */
+  if(S.sessions>=4)setTimeout(()=>toast("🏆 Все 4 окна сегодня закрыты"),1400);}
 let rev={list:[],i:0};
 function renderReview(){
-  document.getElementById('daybar').innerHTML="";
-  document.getElementById('note').innerHTML="Интервальное повторение: помнишь — карточка вернётся нескоро, забыл — скоро. Тапни «показать», потом честно оцени.";
-  const due=S.reviewDeck.filter(r=>r.due<=Date.now());
-  rev={list:due,i:0};
+  document.getElementById('eyebrow').textContent="повторение";
+  document.getElementById('note').innerHTML="Интервальное повторение: помнишь — вернётся нескоро, забыл — скоро.";
+  const due=S.reviewDeck.filter(r=>r.due<=Date.now());rev={list:due,i:0};
   const c=document.getElementById('content');
-  if(!S.reviewDeck.length){c.innerHTML=`<div class="review-card"><p style="color:var(--ink-soft)">Пока нечего повторять — пройди первый урок во вкладке «уроки».</p></div>`;return;}
-  if(!due.length){c.innerHTML=`<div class="review-card"><div style="font-size:40px">🌱</div><p style="margin-top:8px">Всё повторено, возвращайся позже.</p><p style="font-size:12px;color:var(--ink-soft);margin-top:6px">В колоде: ${S.reviewDeck.length} слов</p></div>`;return;}
-  draw();
-}
-function draw(){
-  const c=document.getElementById('content');
-  if(rev.i>=rev.list.length){c.innerHTML=`<div class="review-card"><div style="font-size:40px">✨</div><p style="margin-top:8px">Повторение завершено!</p></div>`;toast("გამეორება დასრულდა");save();return;}
+  if(!S.reviewDeck.length){c.innerHTML=`<div class="review-card"><p style="color:var(--ink-2)">Пока нечего повторять — пройди первый урок.</p></div>`;return;}
+  if(!due.length){c.innerHTML=`<div class="review-card"><div style="font-size:34px">🌱</div><p style="margin-top:10px;color:var(--ink-2)">Всё повторено, возвращайся позже.</p><p style="font-size:12px;color:var(--ink-3);margin-top:6px">В колоде: ${S.reviewDeck.length} слов</p></div>`;return;}
+  draw();}
+function draw(){const c=document.getElementById('content');
+  if(rev.i>=rev.list.length){c.innerHTML=`<div class="review-card"><div style="font-size:34px">✨</div><p style="margin-top:10px;color:var(--ink-2)">Повторение завершено</p></div>`;toast("გამეორება დასრულდა");save();return;}
   const cd=rev.list[rev.i];
-  c.innerHTML=`<div class="review-card"><div style="font-size:11px;letter-spacing:.15em;color:var(--gold)">КАРТОЧКА ${rev.i+1}/${rev.list.length}</div>
+  c.innerHTML=`<div class="review-card"><div class="meta">карточка ${rev.i+1}/${rev.list.length}</div>
     <div class="q geo">${cd.ka}</div><div class="a" id="ans">${cd.ru}</div>
     <div class="rbtns" id="rb"><button class="b-reveal" id="rev">Показать перевод</button></div></div>`;
-  document.getElementById('rev').onclick=reveal;
-}
+  document.getElementById('rev').onclick=reveal;}
 function reveal(){document.getElementById('ans').classList.add('show');
   document.getElementById('rb').innerHTML=`<button class="b-hard" id="bh">Забыл</button><button class="b-ok" id="bo">Помню</button>`;
   document.getElementById('bh').onclick=()=>grade(false);document.getElementById('bo').onclick=()=>grade(true);}
 function grade(ok){const cd=rev.list[rev.i];const ref=S.reviewDeck.find(r=>r.ka===cd.ka);
-  ref.box=ok?Math.min(ref.box+1,5):1;
-  ref.due=Date.now()+[0,0,1,3,7,16][ref.box]*86400000;
+  ref.box=ok?Math.min(ref.box+1,5):1;ref.due=Date.now()+[0,0,1,3,7,16][ref.box]*86400000;
   save();rev.i++;draw();}
-/* экспорт/импорт */
-document.getElementById('exportBtn').onclick=()=>{
-  const data=btoa(unescape(encodeURIComponent(JSON.stringify(S))));
-  navigator.clipboard?.writeText(data).then(()=>toast("📋 Прогресс скопирован в буфер"),()=>prompt("Скопируй этот код:",data));
-};
-document.getElementById('importBtn').onclick=()=>{
-  const v=prompt("Вставь код прогресса:");if(!v)return;
+document.getElementById('exportBtn').onclick=()=>{const data=btoa(unescape(encodeURIComponent(JSON.stringify(S))));
+  navigator.clipboard?.writeText(data).then(()=>toast("📋 Прогресс скопирован"),()=>prompt("Скопируй код:",data));};
+document.getElementById('importBtn').onclick=()=>{const v=prompt("Вставь код прогресса:");if(!v)return;
   try{S=JSON.parse(decodeURIComponent(escape(atob(v.trim()))));save();toast("✅ Прогресс восстановлен");render();}
-  catch(e){toast("⚠️ Не похоже на код прогресса");}
-};
+  catch(e){toast("⚠️ Не похоже на код прогресса");}};
 function toast(t){const el=document.getElementById('toast');el.textContent=t;el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),2000);}
 document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{
   document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));t.classList.add('active');currentTrack=t.dataset.track;render();});
