@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>ქართული</title>
+<style>
+:root{
+  --paper:#faf8f4;--surface:#ffffff;--ink:#33302b;--ink-2:#6a655d;--ink-3:#a9a298;
+  --line:#ece7df;--line-2:#e0dacf;--word:#2b2824;--accent:#b06a4f;--accent-soft:#b06a4f1a;--radius:16px;
+}
+@media (prefers-color-scheme:dark){
+:root{--paper:#17150f;--surface:#201d17;--ink:#ece6da;--ink-2:#a59e90;--ink-3:#6f685b;
+  --line:#2a261f;--line-2:#332e26;--word:#f1ebe0;--accent:#cf8568;--accent-soft:#cf856822;}
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{font-family:'Inter','Helvetica Neue',Arial,sans-serif;background:var(--paper);color:var(--ink);
+  min-height:100vh;line-height:1.5;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom);-webkit-font-smoothing:antialiased}
+.geo{font-family:'Sylfaen','Noto Serif Georgian','BPG Glaho',Georgia,serif}
+.wrap{max-width:520px;margin:0 auto;padding:20px 18px 80px}
+header{margin-bottom:22px}
+.eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+.title-row{display:flex;align-items:baseline;justify-content:space-between;margin-top:6px}
+.title-row h1{font-family:'Sylfaen',serif;font-size:32px;font-weight:600;color:var(--word);letter-spacing:.01em}
+.title-row .day{font-size:13px;color:var(--ink-2);font-weight:500}
+.stats{display:flex;margin:20px 0 4px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.stat{flex:1;text-align:center;padding:14px 4px;position:relative}
+.stat+.stat::before{content:"";position:absolute;left:0;top:22%;height:56%;width:1px;background:var(--line)}
+.stat b{display:block;font-size:23px;font-weight:700;color:var(--ink);line-height:1;letter-spacing:-.01em}
+.stat.accent b{color:var(--accent)}
+.stat span{font-size:10px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.07em;font-weight:600;margin-top:6px;display:block}
+.windows{display:flex;gap:7px;margin:20px 0}
+.due-banner{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--accent);color:#fff;border-radius:14px;padding:14px 16px;margin:0 0 18px;cursor:pointer}
+.due-banner .dt{font-size:14px;font-weight:600;line-height:1.3}
+.due-banner .dt small{display:block;font-size:11px;opacity:.85;font-weight:500;margin-top:2px}
+.due-banner .dgo{flex:0 0 auto;background:rgba(255,255,255,.22);border-radius:9px;padding:8px 14px;font-size:13px;font-weight:700;white-space:nowrap}
+.win{flex:1;height:6px;border-radius:3px;background:var(--line-2);transition:.3s}
+.win.done{background:var(--accent)}
+.win.now{background:var(--accent);opacity:.45}
+.tabs{display:flex;gap:14px;margin:18px 2px 4px;border-bottom:1px solid var(--line)}
+.tab{padding:8px 0;font-size:13px;font-weight:600;color:var(--ink-3);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;letter-spacing:.01em;white-space:nowrap}
+.tab.active{color:var(--ink);border-bottom-color:var(--accent)}
+.daybar{display:flex;gap:4px;overflow-x:auto;margin:14px 0 4px;-webkit-overflow-scrolling:touch}
+.daychip{flex:0 0 auto;min-width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:var(--ink-3);background:transparent;cursor:pointer}
+.daychip.done{color:var(--ink-2)}
+.daychip.active{color:#fff;background:var(--accent)}
+.daychip.locked{opacity:.4}
+.section-label{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);font-weight:700;margin:22px 2px 12px}
+.lesson{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);margin-bottom:12px;overflow:hidden}
+.lhead{display:flex;align-items:center;gap:14px;padding:16px;cursor:pointer}
+.lnum{font-size:13px;font-weight:700;color:var(--ink-3);min-width:22px;text-align:center}
+.ltitle{flex:1}
+.ltitle b{font-size:15.5px;font-weight:700;display:block;line-height:1.2;color:var(--ink)}
+.ltitle small{font-size:12.5px;color:var(--ink-3);font-weight:500}
+.chev{font-size:13px;color:var(--ink-3);transition:.2s}
+.lesson.open .chev{transform:rotate(180deg)}
+.lbody{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.lesson.open .lbody{max-height:4000px}
+.lbody-inner{padding:0 16px 16px}
+.confuse{display:flex;gap:10px;margin:2px 0 16px}
+.glyph{flex:1;text-align:center;border-radius:12px;padding:12px 4px;background:var(--paper)}
+.glyph .g{font-family:'Sylfaen',serif;font-size:40px;color:var(--word);line-height:1}
+.glyph .n{font-size:11px;color:var(--ink-3);margin-top:6px;font-weight:600}
+.pair{display:flex;align-items:flex-start;gap:10px;padding:14px 0;border-bottom:1px solid var(--line)}
+.pair:last-of-type{border-bottom:none}
+.pair .ka{font-family:'Sylfaen',serif;font-size:25px;color:var(--word);flex:1 1 auto;min-width:0;line-height:1.15;font-weight:600;word-break:break-word}
+.pair .tr{flex:0 0 auto;cursor:pointer;user-select:none;padding-top:5px;margin-left:auto}
+.pair .tr .peek{display:inline-block;font-size:9px;font-weight:600;letter-spacing:.04em;color:var(--ink-3);text-transform:uppercase;border-bottom:1px dashed var(--ink-3);padding-bottom:1px;white-space:nowrap}
+.pair .tr.shown .peek{display:none}
+.pair .tr .real{display:none;font-size:13px;color:var(--ink-2);font-style:italic;white-space:nowrap}
+.pair .tr.shown .real{display:inline}
+.pair .ru{flex:0 0 33%;font-size:14px;color:var(--ink);font-weight:500;text-align:left;padding-top:3px;line-height:1.3}
+.fact{margin-top:16px;padding-top:14px;border-top:1px solid var(--line);font-size:13px;line-height:1.6;color:var(--ink-2)}
+.fact .tag{font-size:10px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;display:block;margin-bottom:6px}
+.fact b{color:var(--ink);font-weight:700}
+.done-btn{width:100%;margin-top:18px;padding:14px;border:none;border-radius:12px;background:var(--ink);color:var(--paper);font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;transition:.15s;letter-spacing:.01em}
+.done-btn:active{opacity:.85;transform:scale(.99)}
+.lesson.done .done-btn{background:transparent;color:var(--accent);border:1px solid var(--line-2)}
+.lesson.grammar .lhead{border-left:3px solid var(--accent)}
+.philo{font-size:13.5px;line-height:1.7;color:var(--ink-2);margin:2px 0 14px}
+.philo b{color:var(--ink);font-weight:700}
+.svgbox{border:1px solid var(--line);border-radius:12px;padding:14px;background:var(--paper);margin-bottom:8px}
+.svgbox svg{width:100%;height:auto;display:block}
+.review-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:24px 20px;text-align:center}
+.letter{padding:14px 0;border-bottom:1px solid var(--line)}
+.letter:last-of-type{border-bottom:none}
+.lrow{display:flex;align-items:center;gap:14px}
+.big{font-family:'Sylfaen',serif;font-size:44px;color:var(--word);line-height:1;font-weight:600;min-width:52px;text-align:center}
+.lmeta{flex:1}.lmeta .lat{font-size:14px;font-weight:700;color:var(--ink)}.lmeta .kind{font-size:12px;color:var(--ink-3);margin-top:2px}
+.flag{flex:0 0 auto;font-size:10px;font-weight:700;color:var(--accent);border:1px solid var(--accent);border-radius:7px;padding:4px 7px;text-align:center;line-height:1.3;max-width:92px}
+.words{margin-top:10px;padding-left:66px}
+.wd{display:flex;align-items:baseline;gap:10px;padding:7px 0;border-bottom:1px dashed var(--line)}
+.wd:last-child{border-bottom:none}
+.wd .wka{font-family:'Sylfaen',serif;font-size:19px;color:var(--word);font-weight:600;min-width:38%}
+.wd .wru{font-size:13px;color:var(--ink-2);flex:1}
+.minpair{margin-top:14px;background:var(--paper);border:1px solid var(--line-2);border-radius:12px;padding:12px 14px;font-size:13px;line-height:1.6;color:var(--ink-2)}
+.minpair b{color:var(--accent);font-weight:800}.minpair .geo{color:var(--word);font-weight:700}
+.winput{width:100%;font-size:26px;text-align:center;padding:12px;border:1px solid var(--line-2);border-radius:12px;background:var(--paper);color:var(--word);font-weight:600;outline:none}
+.winput:focus{border-color:var(--accent)}
+.wfeedback{min-height:22px;margin:14px 0 4px;font-size:15px;line-height:1.4}
+.wfeedback.ok{color:var(--accent);font-weight:600}
+.wfeedback.near{color:var(--accent)}
+.wfeedback.no{color:var(--ink-2)}
+.wfeedback b.geo{font-size:22px;color:var(--word)}
+.choices{display:flex;flex-direction:column;gap:8px;margin-top:18px}
+.choice{padding:14px;border:1px solid var(--line-2);border-radius:11px;background:var(--surface);color:var(--ink);font-family:inherit;font-size:15px;font-weight:500;cursor:pointer;transition:.15s}
+.choice:active{background:var(--paper)}
+.choice.correct{background:var(--accent);color:#fff;border-color:var(--accent)}
+.choice.wrong{background:transparent;color:var(--ink-3);border-color:var(--line-2);text-decoration:line-through}
+.audio-card{display:block;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin-bottom:12px;text-decoration:none;color:inherit}
+.audio-card .ahead{display:flex;align-items:baseline;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.audio-card .ahead b{font-size:16px;font-weight:700;color:var(--ink)}
+.audio-card .akind{font-size:11px;color:var(--ink-3);font-weight:600}
+.audio-card .adesc{font-size:13px;color:var(--ink-2);line-height:1.55;margin:8px 0 10px}
+.audio-card .aopen{font-size:13px;font-weight:700;color:var(--accent)}
+.review-card .meta{font-size:10px;letter-spacing:.14em;color:var(--ink-3);text-transform:uppercase;font-weight:700}
+.review-card .q{font-family:'Sylfaen',serif;font-size:38px;color:var(--word);margin:14px 0;font-weight:600}
+.review-card .a{font-size:18px;min-height:24px;margin:8px 0;opacity:0;transition:.3s;color:var(--ink)}
+.review-card .a.show{opacity:1}
+.rbtns{display:flex;gap:10px;margin-top:18px}
+.rbtns button{flex:1;padding:13px;border:none;border-radius:11px;font-family:inherit;font-size:13px;cursor:pointer;font-weight:600}
+.b-reveal{width:100%;background:var(--ink);color:var(--paper)}
+.b-hard{background:transparent;color:var(--accent);border:1px solid var(--line-2)!important}
+.b-ok{background:var(--accent);color:#fff}
+.b-mid{background:var(--paper);color:var(--ink);border:1px solid var(--line-2)!important}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(80px);background:var(--ink);color:var(--paper);padding:13px 22px;border-radius:30px;font-size:14px;font-weight:500;box-shadow:0 8px 30px rgba(0,0,0,.18);transition:.35s cubic-bezier(.2,.9,.2,1);z-index:50;opacity:0;max-width:88%;text-align:center}
+#toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.tools{display:flex;gap:10px;justify-content:center;margin-top:24px}
+.tools button{background:none;border:1px solid var(--line-2);color:var(--ink-3);font-family:inherit;font-size:11px;padding:8px 14px;border-radius:9px;cursor:pointer;font-weight:600}
+.note{font-size:11px;color:var(--ink-3);text-align:center;margin-top:16px;line-height:1.6;padding:0 8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow" id="eyebrow">день 1</div>
+    <div class="title-row">
+      <h1 class="geo">ქართული</h1>
+      <span class="day geo" id="dailyLetter">ა</span>
+    </div>
+  </header>
+  <div class="stats">
+    <div class="stat accent"><b id="streak">0</b><span>дней 🔥</span></div>
+    <div class="stat"><b id="doneCount">0</b><span>уроков</span></div>
+    <div class="stat"><b id="todaySessions">0/4</b><span>сегодня</span></div>
+  </div>
+  <div class="windows" id="windows"></div>
+  <div id="dueBanner" class="due-banner" style="display:none"></div>
+  <div class="tabs">
+    <div class="tab active" data-track="lang">уроки</div>
+    <div class="tab" data-track="review">повтор</div>
+    <div class="tab" data-track="write">письмо</div>
+    <div class="tab" data-track="audio">аудио</div>
+  </div>
+  <div class="daybar" id="daybar"></div>
+  <div id="content"></div>
+  <div class="tools">
+    <button id="exportBtn">Экспорт прогресса</button>
+    <button id="importBtn">Импорт</button>
+  </div>
+  <p class="note" id="note"></p>
+</div>
+<div id="toast"></div>
+
+<script src="lessons.js?v=2" onerror="window.__lessonsFailed=true"></script>
+<script>
+const KEY="kartuli_v2";
+const HEADER_LETTERS=["ა","ბ","გ","დ","ვ","კ","ლ","მ","ნ","ო","რ","ს","ტ","ფ","ქ","ღ","ყ"];
+const WINDOWS=["11:00","15:00","19:00","23:00"];
+const L=window.LESSONS||[];
+let S=load();
+// одноразовая чистка: убрать из колоды буквы-мнемоники (ka из одной груз. буквы)
+(function cleanDeck(){if(!S.reviewDeck)return;const before=S.reviewDeck.length;
+  S.reviewDeck=S.reviewDeck.filter(r=>!(r.ka&&r.ka.length===1&&r.ka>='\u10A0'&&r.ka<='\u10FF'));
+  if(S.reviewDeck.length!==before)save();})();
+function load(){try{const r=localStorage.getItem(KEY);if(r)return JSON.parse(r);}catch(e){}
+  return {done:[],streak:0,lastDay:null,today:null,sessions:0,reviewDeck:[]};}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+function todayStr(){return new Date().toISOString().slice(0,10);}
+function checkDay(){const t=todayStr();
+  if(S.today!==t){if(S.lastDay){const d=(new Date(t)-new Date(S.lastDay))/86400000;if(d>1)S.streak=0;}
+    S.today=t;S.sessions=0;save();}}
+let currentTrack="lang",activeDay=1;
+function maxUnlockedDay(){let d=1;for(let day=1;day<20;day++){
+  const ld=L.filter(l=>l.day===day);if(ld.some(l=>S.done.includes(l.id)))d=day+1;else break;}return d;}
+function dueCount(){return S.reviewDeck.filter(r=>r.due<=Date.now()).length;}
+function plural(n,one,few,many){const m=n%10,h=n%100;
+  if(m===1&&h!==11)return one;if(m>=2&&m<=4&&(h<10||h>=20))return few;return many;}
+function renderDueBanner(){
+  const el=document.getElementById('dueBanner');const n=dueCount();
+  if(currentTrack!=="lang"||n===0){el.style.display="none";return;}
+  el.style.display="flex";
+  el.innerHTML=`<div class="dt">К повторению ${n} ${plural(n,'слово','слова','слов')}<small>возврат к выученному закрепляет память</small></div><div class="dgo">Повторить →</div>`;
+  el.onclick=()=>{currentTrack="review";
+    document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.track==="review"));
+    render();};}
+function render(){checkDay();
+  document.getElementById('dailyLetter').textContent=HEADER_LETTERS[new Date().getDate()%HEADER_LETTERS.length];
+  document.getElementById('streak').textContent=S.streak;
+  document.getElementById('doneCount').textContent=S.done.length;
+  document.getElementById('todaySessions').textContent=S.sessions+"/4";
+  renderWindows();
+  renderDueBanner();
+  document.getElementById('daybar').style.display = currentTrack==="lang" ? "" : "none";
+  if(currentTrack==="lang"){renderDaybar();renderDay();}
+  else if(currentTrack==="review"){renderReview();}
+  else if(currentTrack==="audio"){renderAudio();}
+  else{renderWrite();}}
+function renderWindows(){const now=new Date();const cur=now.getHours()*60+now.getMinutes();
+  const ni=WINDOWS.findIndex(x=>{const[h,m]=x.split(':').map(Number);return h*60+m>=cur;});
+  document.getElementById('windows').innerHTML=WINDOWS.map((w,i)=>{
+    let c="win";if(i<S.sessions)c+=" done";if(i===ni&&i>=S.sessions)c+=" now";
+    return `<div class="${c}"></div>`;}).join('');}
+function renderDaybar(){const maxD=maxUnlockedDay();if(activeDay>maxD)activeDay=maxD;
+  document.getElementById('eyebrow').textContent="день "+activeDay;
+  let h="";for(let d=1;d<=20;d++){const ld=L.filter(l=>l.day===d);
+    const complete=ld.length&&ld.every(l=>S.done.includes(l.id));const locked=d>maxD;
+    h+=`<div class="daychip ${d===activeDay?'active':''} ${complete?'done':''} ${locked?'locked':''}" data-day="${d}" ${locked?'data-locked=1':''}>${d}</div>`;}
+  const db=document.getElementById('daybar');db.innerHTML=h;
+  db.querySelectorAll('.daychip').forEach(c=>c.onclick=()=>{
+    if(c.dataset.locked){toast("Сначала начни предыдущий день");return;}activeDay=+c.dataset.day;render();});}
+function renderDay(){
+  document.getElementById('note').innerHTML="Транскрипция скрыта — сначала прочти грузинскими буквами, потом тапни «показать» для проверки. Один урок за заход ≈ 5 минут.";
+  if(!L.length){
+    document.getElementById('content').innerHTML=`<div class="review-card"><p style="color:var(--ink-2);line-height:1.6">Уроки не загрузились. Обычно это кэш браузера.<br><br>Потяни страницу вниз, чтобы обновить. Если не помогло — закрой вкладку и открой заново с домашнего экрана.</p></div>`;
+    return;
+  }
+  const lessons=L.filter(l=>l.day===activeDay);
+  const lang=lessons.filter(l=>l.track==="lang"),gram=lessons.filter(l=>l.track==="grammar");
+  let h=`<div class="section-label">слова и фразы</div>`;
+  lang.forEach(l=>h+=card(l));
+  if(gram.length){h+=`<div class="section-label">философия языка</div>`;gram.forEach(l=>h+=card(l));}
+  document.getElementById('content').innerHTML=h;bind();}
+function card(l){const done=S.done.includes(l.id);let b="";
+  if(l.intro)b+=`<div class="philo" style="margin-top:2px">${l.intro}</div>`;
+  if(l.letters){ // новый формат алфавита: группы букв со словами
+    b+=l.letters.map(le=>`<div class="letter">
+        <div class="lrow"><div class="big geo">${le.g}</div>
+          <div class="lmeta"><div class="lat">${le.lat}</div><div class="kind">${le.kind}</div></div>
+          ${le.flag?`<div class="flag">${le.flag}</div>`:''}</div>
+        <div class="words">${le.words.map(w=>`<div class="wd"><span class="wka geo">${w.ka}</span><span class="tr"><span class="peek">показать</span><span class="real">${w.tr}</span></span><span class="wru">${w.ru}</span></div>`).join('')}</div>
+      </div>`).join('');
+    if(l.minpair)b+=`<div class="minpair">${l.minpair}</div>`;
+  }
+  if(l.philo)b+=`<div class="philo">${l.philo}</div>`;
+  if(l.svg)b+=`<div class="svgbox">${l.svg}</div>`;
+  if(l.items)b+=l.items.map(it=>`<div class="pair"><span class="ka geo">${it.ka}</span><span class="tr"><span class="peek">показать</span><span class="real">${it.tr}</span></span><span class="ru">${it.ru}</span></div>`).join('');
+  if(l.fact)b+=`<div class="fact"><span class="tag">${l.track==='grammar'?'грамматика':'культура'}</span>${l.fact}</div>`;
+  b+=`<button class="done-btn" data-done="${l.id}">${done?"Пройдено · открыть снова":"Отметить пройденным"}</button>`;
+  const num=l.letters?"აბ":(l.id<10?"0"+l.id:l.id);
+  return `<div class="lesson ${l.track==='grammar'?'grammar':''} ${done?'done':''}" data-lesson="${l.id}">
+    <div class="lhead"><div class="lnum geo">${num}</div>
+      <div class="ltitle"><b>${l.title}</b><small>${l.sub}</small></div><div class="chev">▾</div></div>
+    <div class="lbody"><div class="lbody-inner">${b}</div></div></div>`;}
+function bind(){
+  document.querySelectorAll('.lhead').forEach(h=>h.onclick=()=>h.closest('.lesson').classList.toggle('open'));
+  document.querySelectorAll('.pair .tr').forEach(t=>t.onclick=e=>{e.stopPropagation();t.classList.toggle('shown');});
+  document.querySelectorAll('[data-done]').forEach(b=>b.onclick=e=>{e.stopPropagation();complete(+b.dataset.done);});}
+function complete(id){const l=L.find(x=>x.id===id);
+  if(!S.done.includes(id)){S.done.push(id);
+    const addWord=it=>{if(it.noReview)return;if(!S.reviewDeck.find(r=>r.ka===it.ka))S.reviewDeck.push({ka:it.ka,ru:it.ru,box:1,due:Date.now()});};
+    if(l.items)l.items.forEach(addWord);
+    if(l.letters)l.letters.forEach(le=>le.words.forEach(addWord));}
+  S.lastDay=todayStr();if(S.sessions<4)S.sessions++;if(S.streak===0)S.streak=1;
+  save();celebrate();render();}
+function celebrate(){const m=["კარგია 🍷 +1","ყოჩაღ! (молодец)","ფანტასტიკურია!","აპლодисменти 👏","მაგარია! дальше"];
+  toast(m[Math.floor(Math.random()*m.length)]);
+  if(S.sessions>=4)setTimeout(()=>toast("🏆 Все 4 окна сегодня закрыты"),1400);}
+let rev={list:[],i:0};
+function pickFormat(box){
+  // лёгкие/новые слова — узнавание и выбор; зрелые — письмо. Плюс случайность для новизны.
+  const r=Math.random();
+  if(box<=1)return r<0.5?'recognize':'choice';
+  if(box===2)return r<0.4?'choice':(r<0.7?'recognize':'write');
+  return r<0.55?'write':(r<0.8?'recognize':'choice');}
+function renderReview(){
+  document.getElementById('eyebrow').textContent="повторение";
+  document.getElementById('note').innerHTML="Форматы чередуются: узнать, вспомнить, набрать. Возврат к слову через растущие промежутки — это и есть запоминание.";
+  const due=S.reviewDeck.filter(r=>r.due<=Date.now());
+  for(let i=due.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[due[i],due[j]]=[due[j],due[i]];}
+  rev={list:due,i:0};
+  const c=document.getElementById('content');
+  if(!S.reviewDeck.length){c.innerHTML=`<div class="review-card"><p style="color:var(--ink-2)">Пока нечего повторять — пройди первый урок.</p></div>`;return;}
+  if(!due.length){c.innerHTML=`<div class="review-card"><div style="font-size:34px">🌱</div><p style="margin-top:10px;color:var(--ink-2)">Всё повторено, возвращайся позже.</p><p style="font-size:12px;color:var(--ink-3);margin-top:6px">В колоде: ${S.reviewDeck.length} слов</p></div>`;return;}
+  draw();}
+function draw(){const c=document.getElementById('content');
+  if(rev.i>=rev.list.length){c.innerHTML=`<div class="review-card"><div style="font-size:34px">✨</div><p style="margin-top:10px;color:var(--ink-2)">Повторение завершено</p><p style="font-size:12px;color:var(--ink-3);margin-top:6px">Возвращайся в следующее окно — созреют новые.</p></div>`;toast("გამეორება დასრულდა");save();renderDueBanner();return;}
+  const cd=rev.list[rev.i];const ref=S.reviewDeck.find(r=>r.ka===cd.ka);
+  const fmt=pickFormat(ref?(typeof ref.step==="number"?ref.step:0):0);
+  const meta=`карточка ${rev.i+1}/${rev.list.length}`;
+  if(fmt==='recognize')drawRecognize(cd,meta);
+  else if(fmt==='choice')drawChoice(cd,meta);
+  else drawWriteCard(cd,meta);}
+/* — узнавание: груз → рус (показать/помню-забыл) — */
+function drawRecognize(cd,meta){const c=document.getElementById('content');
+  c.innerHTML=`<div class="review-card"><div class="meta">${meta} · узнавание</div>
+    <div class="q geo">${cd.ka}</div><div class="a" id="ans">${cd.ru}</div>
+    <div class="rbtns" id="rb"><button class="b-reveal" id="rev">Показать перевод</button></div></div>`;
+  document.getElementById('rev').onclick=()=>{document.getElementById('ans').classList.add('show');
+    document.getElementById('rb').innerHTML=`<button class="b-hard" id="bh">Сложно</button><button class="b-mid" id="bm">Нормально</button><button class="b-ok" id="be">Легко</button>`;
+    document.getElementById('bh').onclick=()=>grade(cd,'hard');
+    document.getElementById('bm').onclick=()=>grade(cd,'good');
+    document.getElementById('be').onclick=()=>grade(cd,'easy');};}
+/* — выбор из вариантов: груз → выбрать рус — */
+function drawChoice(cd,meta){const c=document.getElementById('content');
+  const others=S.reviewDeck.filter(r=>r.ka!==cd.ka);
+  for(let i=others.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[others[i],others[j]]=[others[j],others[i]];}
+  let opts=[cd.ru,...others.slice(0,3).map(o=>o.ru)];
+  if(opts.length<2){drawRecognize(cd,meta);return;} // мало слов для выбора
+  for(let i=opts.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[opts[i],opts[j]]=[opts[j],opts[i]];}
+  c.innerHTML=`<div class="review-card"><div class="meta">${meta} · выбор</div>
+    <div class="q geo">${cd.ka}</div>
+    <div class="choices" id="ch">${opts.map(o=>`<button class="choice" data-v="${encodeURIComponent(o)}">${o}</button>`).join('')}</div></div>`;
+  document.getElementById('ch').querySelectorAll('.choice').forEach(b=>b.onclick=()=>{
+    const val=decodeURIComponent(b.dataset.v);const ok=val===cd.ru;
+    document.getElementById('ch').querySelectorAll('.choice').forEach(x=>{
+      const xv=decodeURIComponent(x.dataset.v);x.disabled=true;
+      if(xv===cd.ru)x.classList.add('correct');else if(x===b)x.classList.add('wrong');});
+    setTimeout(()=>grade(cd,ok?'good':'hard'),700);});}
+/* — письмо в повторе: рус → набрать груз — */
+function drawWriteCard(cd,meta){const c=document.getElementById('content');
+  c.innerHTML=`<div class="review-card"><div class="meta">${meta} · письмо</div>
+    <div style="font-size:22px;font-weight:700;margin:14px 0 4px;color:var(--ink)">${cd.ru}</div>
+    <div style="font-size:12px;color:var(--ink-3);margin-bottom:14px">набери по-грузински</div>
+    <input id="rin" class="winput geo" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="ააა">
+    <div class="wfeedback" id="rfb"></div>
+    <div class="rbtns" id="rrb"><button class="b-hard" id="rsk" style="flex:0 0 38%">не помню</button><button class="b-reveal" id="rck" style="width:auto;flex:1">Проверить</button></div></div>`;
+  const inp=document.getElementById('rin');
+  const finish=(ok,near)=>{const fb=document.getElementById('rfb');inp.disabled=true;
+    fb.className="wfeedback "+(ok?(near?'near':'ok'):'no');
+    fb.innerHTML=(ok&&!near?`✓ верно — `:(near?`почти! правильно: `:`правильно: `))+`<b class="geo">${cd.ka}</b>`+(ok&&!near?``:`<br><span style="font-size:12px;color:var(--ink-3)">ты: ${inp.value||'—'}</span>`);
+    document.getElementById('rrb').innerHTML=`<button class="${ok?'b-ok':'b-reveal'}" id="rnx">Дальше</button>`;
+    document.getElementById('rnx').onclick=()=>grade(cd,ok?'good':'hard');};
+  document.getElementById('rck').onclick=()=>{const a=normalize(inp.value),t=normalize(cd.ka);
+    if(!a){toast("Набери слово или «не помню»");return;}const d=levenshtein(a,t);
+    if(a===t)finish(true,false);else if(d<=1)finish(true,true);else finish(false,false);};
+  document.getElementById('rsk').onclick=()=>finish(false,false);
+  inp.addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('rck').click();});
+  setTimeout(()=>inp.focus(),100);}
+const LADDER=[1,3,7,14,30,75,160];
+function grade(cd,q){const ref=S.reviewDeck.find(r=>r.ka===cd.ka);
+  if(ref){
+    if(typeof ref.step!=="number")ref.step=(ref.box?ref.box-1:0);
+    if(q==='hard')ref.step=0;
+    else if(q==='good')ref.step=Math.min(ref.step+1,LADDER.length-1);
+    else ref.step=Math.min(ref.step+2,LADDER.length-1);
+    ref.due=Date.now()+LADDER[ref.step]*86400000;
+  }
+  save();rev.i++;draw();}
+
+/* ===== ПИСЬМО: обратный перевод рус -> груз с вводом ===== */
+let wr={list:[],i:0,checked:false};
+function normalize(s){return (s||"").toLowerCase().replace(/\s+/g,' ').trim();}
+function levenshtein(a,b){const m=a.length,n=b.length;if(!m)return n;if(!n)return m;
+  let prev=Array.from({length:n+1},(_,j)=>j);
+  for(let i=1;i<=m;i++){let cur=[i];for(let j=1;j<=n;j++){
+    cur[j]=Math.min(prev[j]+1,cur[j-1]+1,prev[j-1]+(a[i-1]===b[j-1]?0:1));}prev=cur;}
+  return prev[n];}
+function renderWrite(){
+  document.getElementById('eyebrow').textContent="письмо";
+  document.getElementById('note').innerHTML="Обратный перевод: вспомни и набери слово по-грузински. Это закрепляет сильнее, чем узнавание.";
+  const pool=S.reviewDeck.slice();
+  if(!pool.length){document.getElementById('content').innerHTML=`<div class="review-card"><p style="color:var(--ink-2)">Сначала пройди хотя бы один урок — слова появятся здесь для тренировки письма.</p></div>`;return;}
+  // перемешиваем, берём до 12 за сессию
+  for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
+  wr={list:pool.slice(0,12),i:0,checked:false};
+  drawWrite();}
+function drawWrite(){const c=document.getElementById('content');
+  if(wr.i>=wr.list.length){
+    c.innerHTML=`<div class="review-card"><div style="font-size:34px">✨</div><p style="margin-top:10px;color:var(--ink-2)">Сессия письма завершена</p><p style="font-size:12px;color:var(--ink-3);margin-top:6px">Повтори в любой момент — слова перемешаются заново.</p></div>`;
+    toast("დასრულდა · письмо закрыто");return;}
+  const cd=wr.list[wr.i];
+  c.innerHTML=`<div class="review-card">
+    <div class="meta">письмо ${wr.i+1}/${wr.list.length}</div>
+    <div style="font-size:22px;font-weight:700;margin:14px 0 4px;color:var(--ink)">${cd.ru}</div>
+    <div style="font-size:12px;color:var(--ink-3);margin-bottom:14px">набери по-грузински</div>
+    <input id="win" class="winput geo" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="ააა">
+    <div class="wfeedback" id="wfb"></div>
+    <div class="rbtns" id="wrb"><button class="b-hard" id="wskip" style="flex:0 0 38%">не помню</button><button class="b-reveal" id="wcheck" style="width:auto;flex:1">Проверить</button></div>
+  </div>`;
+  const inp=document.getElementById('win');
+  document.getElementById('wcheck').onclick=checkWrite;
+  document.getElementById('wskip').onclick=checkWriteSkip;
+  inp.addEventListener('keydown',e=>{if(e.key==='Enter')checkWrite();});
+  setTimeout(()=>inp.focus(),100);}
+function checkWrite(){
+  const cd=wr.list[wr.i];const inp=document.getElementById('win');
+  const ans=normalize(inp.value);const target=normalize(cd.ka);
+  const fb=document.getElementById('wfb');const rb=document.getElementById('wrb');
+  if(!ans){toast("Набери слово или нажми «не помню»");return;}
+  const dist=levenshtein(ans,target);
+  inp.disabled=true;
+  if(ans===target){
+    fb.className="wfeedback ok";fb.innerHTML=`✓ верно — <b class="geo">${cd.ka}</b>`;
+    bumpDeck(cd,true);
+    rb.innerHTML=`<button class="b-ok" id="wnext">Дальше</button>`;
+  } else if(dist<=1){
+    fb.className="wfeedback near";fb.innerHTML=`почти! правильно: <b class="geo">${cd.ka}</b><br><span style="font-size:12px;color:var(--ink-3)">ты написала: ${inp.value}</span>`;
+    bumpDeck(cd,true); // одна опечатка — засчитываем, но показываем эталон
+    rb.innerHTML=`<button class="b-ok" id="wnext">Дальше</button>`;
+  } else {
+    fb.className="wfeedback no";fb.innerHTML=`правильно: <b class="geo">${cd.ka}</b><br><span style="font-size:12px;color:var(--ink-3)">ты написала: ${inp.value||"—"}</span>`;
+    bumpDeck(cd,false);
+    rb.innerHTML=`<button class="b-reveal" id="wnext">Дальше</button>`;
+  }
+  document.getElementById('wnext').onclick=()=>{wr.i++;drawWrite();};}
+function checkWriteSkip(){const cd=wr.list[wr.i];bumpDeck(cd,false);
+  const fb=document.getElementById('wfb');fb.className="wfeedback no";fb.innerHTML=`правильно: <b class="geo">${cd.ka}</b>`;
+  document.getElementById('win').disabled=true;
+  document.getElementById('wrb').innerHTML=`<button class="b-reveal" id="wnext">Дальше</button>`;
+  document.getElementById('wnext').onclick=()=>{wr.i++;drawWrite();};}
+function bumpDeck(cd,ok){const ref=S.reviewDeck.find(r=>r.ka===cd.ka);if(!ref)return;
+  if(typeof ref.step!=="number")ref.step=(ref.box?ref.box-1:0);
+  ref.step=ok?Math.min(ref.step+1,LADDER.length-1):0;
+  ref.due=Date.now()+LADDER[ref.step]*86400000;save();}
+
+/* ===== АУДИО: живые ресурсы для тренировки слуха ===== */
+const AUDIO=[
+  {name:"Hoda-Georgia", kind:"YouTube · носители, по темам",
+   desc:"Бека и Гванца ведут уроки с носителями: транспорт, семья, шопинг, у врача, сленг. Объяснения по-английски, грузинская речь — живая. Ближе всего к твоим темам.",
+   url:"https://www.youtube.com/playlist?list=PLMmSDfeFPtopeDd0eJ5Rd4aI_6yOzCI-0"},
+  {name:"LinguaBoost — Georgian", kind:"подкаст · диалоги",
+   desc:"Практичные диалоги и фразы носителями, доступный темп, ключевое повторяется по нескольку раз. На сайте выбери Georgian; есть и в Apple Podcasts/Spotify (ищи «Learn Georgian with LinguaBoost»).",
+   url:"https://www.linguaboost.com"},
+  {name:"Georgian Institute", kind:"подкаст · короткие эпизоды",
+   desc:"Короткие фокусные выпуски по «натуральному методу», без перегруза, с повтором частотной лексики. Под прогулку/дорогу.",
+   url:"https://georgianinstitute.com/georgian-podcasts"},
+];
+function renderAudio(){
+  document.getElementById('eyebrow').textContent="аудио";
+  document.getElementById('daybar').style.display="none";
+  document.getElementById('dueBanner').style.display="none";
+  document.getElementById('note').innerHTML="Совет: один эпизод по теме недели слушай по кругу 4–5 раз. Первый раз — общий смысл, дальше лови новые слова. Повтор работает и для слуха.";
+  let h=`<div class="section-label">живая речь · слушать в фоне</div>`;
+  h+=AUDIO.map(a=>`<a class="audio-card" href="${a.url}" target="_blank" rel="noopener">
+      <div class="ahead"><b>${a.name}</b><span class="akind">${a.kind}</span></div>
+      <div class="adesc">${a.desc}</div>
+      <div class="aopen">открыть →</div>
+    </a>`).join('');
+  document.getElementById('content').innerHTML=h;
+}
+document.getElementById('exportBtn').onclick=()=>{const data=btoa(unescape(encodeURIComponent(JSON.stringify(S))));
+  navigator.clipboard?.writeText(data).then(()=>toast("📋 Прогресс скопирован"),()=>prompt("Скопируй код:",data));};
+document.getElementById('importBtn').onclick=()=>{const v=prompt("Вставь код прогресса:");if(!v)return;
+  try{S=JSON.parse(decodeURIComponent(escape(atob(v.trim()))));save();toast("✅ Прогресс восстановлен");render();}
+  catch(e){toast("⚠️ Не похоже на код прогресса");}};
+function toast(t){const el=document.getElementById('toast');el.textContent=t;el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),2000);}
+document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));t.classList.add('active');currentTrack=t.dataset.track;render();});
+render();
+</script>
+</body>
+</html>
