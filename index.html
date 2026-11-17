@@ -147,6 +147,19 @@ header{margin-bottom:22px}
 .pv-ex{display:flex;align-items:baseline;gap:8px;padding:5px 0;flex-wrap:wrap}
 .pv-ex .ka{font-family:'Noto Sans Georgian','Noto Serif Georgian','Sylfaen',serif;font-size:17px;color:var(--word);font-weight:600}
 .pv-ex .ru{font-size:12.5px;color:var(--ink-3)}
+.lesson.open.tall .lbody{max-height:60000px}
+.cs-filter{width:100%;margin:14px 0 6px;padding:10px 12px;font-size:16px;font-family:'Noto Sans Georgian','Noto Serif Georgian','Sylfaen','Inter',Arial,sans-serif;border:1px solid var(--line-2);border-radius:10px;background:var(--paper);color:var(--ink);outline:none}
+.cs-filter:focus{border-color:var(--accent)}
+.cs-count{min-height:16px;font-size:11px;color:var(--ink-3);margin:0 2px 2px}
+.cs-legend,.cs-forms{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.cs-legend{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);padding:6px 0;border-bottom:1px solid var(--line-2)}
+.cs-row{padding:10px 0;border-bottom:1px solid var(--line)}
+.cs-row:last-child{border-bottom:none}
+.cs-head{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin-bottom:4px}
+.cs-head .ka{font-family:'Noto Sans Georgian','Noto Serif Georgian','Sylfaen',serif;font-size:18px;font-weight:700;color:var(--word)}
+.cs-head .ru{font-size:12.5px;color:var(--ink-3)}
+.cs-forms span{font-family:'Noto Sans Georgian','Noto Serif Georgian','Sylfaen',serif;font-size:14px;color:var(--ink-2);overflow-wrap:anywhere}
+.cs-forms b{color:var(--accent);font-weight:700}
 </style>
 </head>
 <body>
@@ -182,7 +195,7 @@ header{margin-bottom:22px}
 </div>
 <div id="toast"></div>
 
-<script src="lessons.js?v=3" onerror="window.__lessonsFailed=true"></script>
+<script src="lessons.js?v=4" onerror="window.__lessonsFailed=true"></script>
 <script>
 const KEY="kartuli_v2";
 const HEADER_LETTERS=["ა","ბ","გ","დ","ვ","კ","ლ","მ","ნ","ო","რ","ს","ტ","ფ","ქ","ღ","ყ"];
@@ -304,7 +317,7 @@ function complete(id){const l=L.find(x=>x.id===id);
     if(l.letters)l.letters.forEach(le=>le.words.forEach(addWord));}
   S.lastDay=todayStr();if(S.sessions<4)S.sessions++;if(S.streak===0)S.streak=1;
   save();celebrate();render();}
-function celebrate(){const m=["კარგია 🍷 +1","ყოჩაღ! (молодец)","ფანტასტიკურია!","აპლодисменти 👏","მაგარია! дальше"];
+function celebrate(){const m=["კარგია 🍷 +1","ყოჩაღ! (молодец)","ფანტასტიკურია!","აპლოდისმენტები 👏","მაგარია! дальше"];
   toast(m[Math.floor(Math.random()*m.length)]);
   if(S.sessions>=4)setTimeout(()=>toast("🏆 Все 4 окна сегодня закрыты"),1400);}
 let rev={list:[],i:0};
@@ -516,6 +529,7 @@ function renderGlossary(){
 function glossaryCard(cat){
   let b="";
   if(cat.intro)b+=`<div class="philo" style="margin-top:2px">${cat.intro}</div>`;
+  if(cat.blocks)b+=cat.blocks.map(bl=>`<div class="fact"><span class="tag">${bl.tag}</span>${bl.html}</div>`).join('');
   if(cat.preverbs){
     b+=cat.preverbs.map(pv=>`<div class="pv-row">
         <div class="pv-p geo">${pv.p}</div>
@@ -528,8 +542,19 @@ function glossaryCard(cat){
   if(cat.items){
     b+=cat.items.map(it=>`<div class="pair"><span class="ka geo">${it.ka}</span><span class="tr"><span class="peek">показать</span><span class="real">${it.tr}</span></span><span class="ru">${it.ru}</span></div>`).join('');
   }
+  if(cat.forms){
+    const hl=(base,f)=>{let i=0;while(i<base.length&&i<f.length&&base[i]===f[i])i++;return f.slice(0,i)+(f.length>i?`<b>${f.slice(i)}</b>`:'');};
+    b+=`<div class="fact"><span class="tag">таблица форм · ${cat.forms.length} слов</span>
+      <input class="cs-filter" type="search" placeholder="найти слово" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+      <div class="cs-count"></div>
+      <div class="cs-legend"><span>дательный</span><span>родительный</span><span>творительный</span></div>`
+      +cat.forms.map(f=>{const q=(f.ka+' '+f.dat+' '+f.gen+' '+f.ins+' '+f.ru).toLowerCase().replace(/"/g,'');
+        return `<div class="cs-row" data-q="${q}"><div class="cs-head"><span class="ka geo">${f.ka}</span><span class="ru">${f.ru}</span></div>
+          <div class="cs-forms"><span>${hl(f.ka,f.dat)}</span><span>${hl(f.ka,f.gen)}</span><span>${hl(f.ka,f.ins)}</span></div></div>`;}).join('')
+      +`</div>`;
+  }
   if(cat.fact)b+=`<div class="fact"><span class="tag">грамматика</span>${cat.fact}</div>`;
-  return `<div class="lesson grammar" data-ref="${cat.id}">
+  return `<div class="lesson grammar ${cat.forms?'tall':''}" data-ref="${cat.id}">
     <div class="lhead"><div class="lnum geo">⌁</div>
       <div class="ltitle"><b>${cat.title}</b><small>${cat.sub}</small></div><div class="chev">▾</div></div>
     <div class="lbody"><div class="lbody-inner">${b}</div></div></div>`;
@@ -537,6 +562,12 @@ function glossaryCard(cat){
 function bindGlossary(){
   document.querySelectorAll('[data-ref] .lhead').forEach(h=>h.onclick=()=>h.closest('.lesson').classList.toggle('open'));
   document.querySelectorAll('[data-ref] .pair .tr').forEach(t=>t.onclick=e=>{e.stopPropagation();t.classList.toggle('shown');});
+  document.querySelectorAll('.cs-filter').forEach(inp=>{
+    const box=inp.closest('.fact');
+    inp.oninput=()=>{const q=inp.value.trim().toLowerCase();let n=0;
+      box.querySelectorAll('.cs-row').forEach(r=>{const ok=!q||r.dataset.q.includes(q);r.hidden=!ok;if(ok)n++;});
+      box.querySelector('.cs-count').textContent=q?(n?'найдено: '+n:'ничего не найдено'):'';};
+  });
 }
 
 document.getElementById('exportBtn').onclick=()=>{const data=btoa(unescape(encodeURIComponent(JSON.stringify(S))));
